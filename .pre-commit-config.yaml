@@ -11,13 +11,15 @@ repos:
     name: Run clang-tidy
 
   repo: local
+
 - hooks:
   - id: check-yaml
   repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
-- hooks:
-  - id: commitizen
-    stages:
-    - push
-  repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.42.1
+
+- repo: https://github.com/commitizen-tools/commitizen
+  rev: master
+  hooks:
+    - id: commitizen
+    - id: commitizen-branch
+      stages: [push]
