@@ -17,9 +17,9 @@ repos:
   - id: check-yaml
   repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
-- hooks:
-  - id: commitizen
-    stages:
-    - push
-  repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.42.1
+# - hooks:
+#   - id: commitizen
+#     stages:
+#     - push
+#   repo: https://github.com/commitizen-tools/commitizen
+#   rev: v2.42.1
