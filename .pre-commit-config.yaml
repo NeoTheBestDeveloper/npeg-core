@@ -7,7 +7,7 @@ repos:
     name: Run clang-format
 
   - entry: clang-tidy  --config-file .clang-tidy
-    types: [c]
+    files: ^.+\.[ch]$
     id: clang-tidy
     language: system
     name: Run clang-tidy
