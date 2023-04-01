@@ -21,4 +21,4 @@ repos:
   rev: master
   hooks:
     - id: commitizen
-      stages: [push]
+      stages: [commit-msg]
