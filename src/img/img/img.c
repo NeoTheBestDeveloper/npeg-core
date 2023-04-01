@@ -10,16 +10,16 @@
 #include "../img.h"
 #include "../pbm/pbm.h"
 
-static bool file_exists(const char *path) { return access(path, F_OK) == 0; }
-static bool can_read(const char *path) { return access(path, R_OK) == 0; }
-static bool can_write(const char *path) {
+static bool file_exists(const char* path) { return access(path, F_OK) == 0; }
+static bool can_read(const char* path) { return access(path, R_OK) == 0; }
+static bool can_write(const char* path) {
     if (0 == access(path, W_OK)) {
         return true;
     }
     return errno == 0 || errno == ENOENT;
 }
 
-static ImgResult result_new(void *data, ImgResultType type) {
+static ImgResult result_new(void* data, ImgResultType type) {
     ImgResult result = {
         .data = data,
         .type = type,
@@ -27,8 +27,8 @@ static ImgResult result_new(void *data, ImgResultType type) {
     return result;
 }
 
-ImgResult img_read(const char *path) {
-    Img *res;
+ImgResult img_read(const char* path) {
+    Img* res;
     if (!file_exists(path)) {
         return result_new(NULL, FILE_DOES_NOT_EXISTS);
     }
@@ -60,7 +60,7 @@ ImgResult img_read(const char *path) {
     return result_new(res, IMG_OK);
 }
 
-ImgResult img_write(const Img *img, const char *path) {
+ImgResult img_write(const Img* img, const char* path) {
     if (!can_write(path)) {
         return result_new(NULL, DO_NOT_HAVE_WRITE_PERMISSIONS);
     }
@@ -68,7 +68,7 @@ ImgResult img_write(const Img *img, const char *path) {
 
     switch (img->type) {
     case PBM:
-        pbm_img_write((const PbmImg *)img, fout);
+        pbm_img_write((const PbmImg*)img, fout);
         break;
     case PNG:
     case JPG:
@@ -86,10 +86,10 @@ ImgResult img_write(const Img *img, const char *path) {
     return result_new(NULL, IMG_OK);
 }
 
-Img *img_copy(const Img *img) {
+Img* img_copy(const Img* img) {
     switch (img->type) {
     case PBM:
-        return pbm_img_copy((const PbmImg *)img);
+        return pbm_img_copy((const PbmImg*)img);
     case PNG:
     case JPG:
     case PGM:
@@ -103,7 +103,7 @@ Img *img_copy(const Img *img) {
     return NULL;
 }
 
-void img_free(Img *img) {
+void img_free(Img* img) {
     switch (img->type) {
     case PBM:
     case PNG:
@@ -125,20 +125,20 @@ void img_free(Img *img) {
     free(img);
 }
 
-void img_rotate(Img *img, f32 degrees, Interpolation inter) {
+void img_rotate(Img* img, f32 degrees, Interpolation inter) {
     for (u8 i = 0; i < img->channels_count; i++) {
         matrix_rotate(img->channels + i, degrees, inter);
     }
 }
 
-void img_interpolate(Img *img, Interpolation inter) {
+void img_interpolate(Img* img, Interpolation inter) {
     for (u8 i = 0; i < img->channels_count; i++) {
         matrix_interpolate(img->channels + i, inter);
     }
 }
 
-inline i64 img_width(const Img *img) { return img->channels[0].width; }
-inline i64 img_height(const Img *img) { return img->channels[0].height; }
-inline u8 img_depth(const Img *img) { return img->depth; }
-inline u8 img_channels_count(const Img *img) { return img->channels_count; }
-inline ImgType img_type(const Img *img) { return img->type; }
+inline i64 img_width(const Img* img) { return img->channels[0].width; }
+inline i64 img_height(const Img* img) { return img->channels[0].height; }
+inline u8 img_depth(const Img* img) { return img->depth; }
+inline u8 img_channels_count(const Img* img) { return img->channels_count; }
+inline ImgType img_type(const Img* img) { return img->type; }

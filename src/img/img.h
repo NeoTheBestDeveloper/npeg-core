@@ -1,10 +1,9 @@
-#ifndef H_IMG
-#define H_IMG
+#pragma once
 
 #include "../algorithms/algorithms.h"
 #include "img/img_type.h"
 
-#ifndef _IMG_H
+#ifndef __IMG
 
 typedef void Img;
 
@@ -20,23 +19,21 @@ typedef enum {
 } ImgResultType;
 
 typedef struct {
-    void *data;
+    void* data;
     ImgResultType type;
 } ImgResult;
 
-ImgResult img_read(const char *path);
-ImgResult img_write(const Img *img, const char *path);
+ImgResult img_read(const char* path);
+ImgResult img_write(const Img* img, const char* path);
 
-Img *img_copy(const Img *img);
-void img_free(Img *img);
+Img* img_copy(const Img* img);
+void img_free(Img* img);
 
-void img_rotate(Img *img, f32 degrees, Interpolation inter);
-void img_interpolate(Img *img, Interpolation inter);
+void img_rotate(Img* img, f32 degrees, Interpolation inter);
+void img_interpolate(Img* img, Interpolation inter);
 
-i64 img_width(const Img *img);
-i64 img_height(const Img *img);
-u8 img_depth(const Img *img);
-u8 img_channels_count(const Img *img);
-ImgType img_type(const Img *img);
-
-#endif // !H_IMG
+i64 img_width(const Img* img);
+i64 img_height(const Img* img);
+u8 img_depth(const Img* img);
+u8 img_channels_count(const Img* img);
+ImgType img_type(const Img* img);

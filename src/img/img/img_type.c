@@ -7,7 +7,7 @@
 #include "img_type.h"
 #include "magic.h"
 
-static bool array_cmp(const u8 *arr1, const u8 *arr2, u64 len) {
+static bool array_cmp(const u8* arr1, const u8* arr2, u64 len) {
     for (u64 i = 0; i < len; i++) {
         if (arr1[i] != arr2[i])
             return false;
@@ -44,8 +44,7 @@ static bool is_tiff(i32 fin) {
     read(fin, buf, LEN(tiff_magic_be));
     lseek(fin, 0, SEEK_SET);
 
-    return array_cmp(tiff_magic_be, buf, LEN(tiff_magic_be)) ||
-           array_cmp(tiff_magic_le, buf, LEN(tiff_magic_le));
+    return array_cmp(tiff_magic_be, buf, LEN(tiff_magic_be)) || array_cmp(tiff_magic_le, buf, LEN(tiff_magic_le));
 }
 
 static bool is_jpg(i32 fin) {
@@ -57,7 +56,7 @@ static bool is_jpg(i32 fin) {
     return array_cmp(jpg_magic, buf, LEN(jpg_magic));
 }
 
-const char *img_type_to_str(ImgType type) {
+const char* img_type_to_str(ImgType type) {
     switch (type) {
     case PNG:
         return "PNG";
@@ -97,16 +96,13 @@ ImgType guess_img_type(i32 fin) {
     read(fin, buf, 2);
     lseek(fin, 0, SEEK_SET);
 
-    if (0 == strncmp(buf, PBM_MAGIC, 2) ||
-        0 == strncmp(buf, ASCII_PBM_MAGIC, 2)) {
+    if (0 == strncmp(buf, PBM_MAGIC, 2) || 0 == strncmp(buf, ASCII_PBM_MAGIC, 2)) {
         return PBM;
     }
-    if (0 == strncmp(buf, PGM_MAGIC, 2) ||
-        0 == strncmp(buf, ASCII_PGM_MAGIC, 2)) {
+    if (0 == strncmp(buf, PGM_MAGIC, 2) || 0 == strncmp(buf, ASCII_PGM_MAGIC, 2)) {
         return PGM;
     }
-    if (0 == strncmp(buf, PPM_MAGIC, 2) ||
-        0 == strncmp(buf, ASCII_PPM_MAGIC, 2)) {
+    if (0 == strncmp(buf, PPM_MAGIC, 2) || 0 == strncmp(buf, ASCII_PPM_MAGIC, 2)) {
         return PPM;
     }
 

@@ -1,5 +1,4 @@
-#ifndef H_TYPES
-#define H_TYPES
+#pragma once
 
 #include <stdint.h>
 
@@ -18,5 +17,3 @@ typedef intmax_t isize;
 typedef float f32;
 typedef double f64;
 typedef long double f128;
-
-#endif // !H_TYPES

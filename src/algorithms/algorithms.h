@@ -1,5 +1,4 @@
-#ifndef H_ALGORITHMS
-#define H_ALGORITHMS
+#pragma once
 
 #include "../math/matrix.h"
 #include "types.h"
@@ -12,7 +11,5 @@ typedef enum {
     INTER_SINC = 4,
 } Interpolation;
 
-void matrix_interpolate(Matrix *m, Interpolation inter);
-void matrix_rotate(Matrix *m, f32 degrees, Interpolation inter);
-
-#endif // !H_ALGORITHMS
+void matrix_interpolate(Matrix* m, Interpolation inter);
+void matrix_rotate(Matrix* m, f32 degrees, Interpolation inter);

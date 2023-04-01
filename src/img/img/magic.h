@@ -1,5 +1,4 @@
-#ifndef IMG_MAGICS_H
-#define IMG_MAGICS_H
+#pragma once
 
 #include "types.h"
 
@@ -22,5 +21,3 @@ const u8 tiff_magic_be[4] = {0x4D, 0x4D, 0x00, 0x2A};
 // of img.
 const u8 webp_magic_first_half[4] = {0x52, 0x49, 0x46, 0x46};
 const u8 webp_magic_second_half[4] = {0x57, 0x45, 0x42, 0x50};
-
-#endif // !IMG_MAGICS_H

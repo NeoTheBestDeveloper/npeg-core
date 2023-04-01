@@ -1,5 +1,4 @@
-#ifndef IMG_TYPE_H
-#define IMG_TYPE_H
+#pragma once
 
 #include "types.h"
 
@@ -17,6 +16,4 @@ typedef enum {
 
 /* Return UNKNOWN (0) if format is unknown. */
 ImgType guess_img_type(i32 fin);
-const char *img_type_to_text(ImgType type);
-
-#endif // !IMG_TYPE_H
+const char* img_type_to_text(ImgType type);

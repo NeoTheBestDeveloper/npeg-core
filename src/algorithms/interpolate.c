@@ -8,9 +8,9 @@
 // TODO: USE AVX INSTRUCTIONS.
 // TODO: Threads.
 
-static void matrix_u16_bilinear_inter(const Matrix *src, Matrix *dst) {
-    u16 **src_data = (u16 **)src->data;
-    u16 **dst_data = (u16 **)dst->data;
+static void matrix_u16_bilinear_inter(const Matrix* src, Matrix* dst) {
+    u16** src_data = (u16**)src->data;
+    u16** dst_data = (u16**)dst->data;
 
     i64 src_height = src->height;
     i64 src_width = src->width;
@@ -44,16 +44,15 @@ static void matrix_u16_bilinear_inter(const Matrix *src, Matrix *dst) {
             f32 f_x_y1 = first_factor * Q11 + second_factor * Q21;
             f32 f_x_y2 = first_factor * Q12 + second_factor * Q22;
 
-            f32 f_x_y = roundf(y2_minus_y * y2_minus_y1_inv * f_x_y1 +
-                               y_minus_y1 * y2_minus_y1_inv * f_x_y2);
+            f32 f_x_y = roundf(y2_minus_y * y2_minus_y1_inv * f_x_y1 + y_minus_y1 * y2_minus_y1_inv * f_x_y2);
             dst_data[i][j] = (u8)f_x_y;
         }
     }
 }
 
-static void matrix_u8_bilinear_inter(const Matrix *src, Matrix *dst) {
-    u8 **src_data = (u8 **)src->data;
-    u8 **dst_data = (u8 **)dst->data;
+static void matrix_u8_bilinear_inter(const Matrix* src, Matrix* dst) {
+    u8** src_data = (u8**)src->data;
+    u8** dst_data = (u8**)dst->data;
 
     i64 src_height = src->height;
     i64 src_width = src->width;
@@ -87,14 +86,13 @@ static void matrix_u8_bilinear_inter(const Matrix *src, Matrix *dst) {
             f32 f_x_y1 = first_factor * Q11 + second_factor * Q21;
             f32 f_x_y2 = first_factor * Q12 + second_factor * Q22;
 
-            f32 f_x_y = roundf(y2_minus_y * y2_minus_y1_inv * f_x_y1 +
-                               y_minus_y1 * y2_minus_y1_inv * f_x_y2);
+            f32 f_x_y = roundf(y2_minus_y * y2_minus_y1_inv * f_x_y1 + y_minus_y1 * y2_minus_y1_inv * f_x_y2);
             dst_data[i][j] = (u8)f_x_y;
         }
     }
 }
 
-void matrix_interpolate(Matrix *m, Interpolation inter) {
+void matrix_interpolate(Matrix* m, Interpolation inter) {
     Matrix res;
     if (inter != INTER_NONE) {
         res = matrix_new(m->width, m->height, m->matrix_type, true);

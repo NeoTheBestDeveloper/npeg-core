@@ -1,5 +1,4 @@
-#ifndef H_TRIG
-#define H_TRIG
+#pragma once
 
 #include "types.h"
 
@@ -7,8 +6,4 @@
 #define PI_2_POW 9.869604401089358f
 #define PI_DEVIDED_BY_180 0.017453292519943295f
 
-static inline f32 deg_to_rad(f32 degrees) {
-    return degrees * PI_DEVIDED_BY_180;
-}
-
-#endif // !H_TRIG
+static inline f32 deg_to_rad(f32 degrees) { return degrees * PI_DEVIDED_BY_180; }

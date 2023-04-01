@@ -1,11 +1,11 @@
+#include "pbm.h"
+
 #include <ctype.h>
 #include <fcntl.h>
 #include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
-#include "pbm.h"
 
 #include "../../img/img.h"
 #include "../../math/matrix.h"
@@ -16,9 +16,9 @@
 static inline u8 digit_to_chr(u8 digit) { return digit + 48; }
 static inline u8 chr_to_digit(u8 digit) { return digit - 48; }
 
-static bool is_ascii(const char *magic) { return 0 == strncmp(magic, "P1", 2); }
+static bool is_ascii(const char* magic) { return 0 == strncmp(magic, "P1", 2); }
 
-static void read_size(i64 *width, i64 *height, i32 fin) {
+static void read_size(i64* width, i64* height, i32 fin) {
     char header_buf[IMG_HEADER_BUFFER_SIZE] = {0};
     u8 buffer_top = 0;
 
@@ -48,15 +48,15 @@ static void read_size(i64 *width, i64 *height, i32 fin) {
     }
 }
 
-static void read_data(PbmImg *img, i32 fin) {
+static void read_data(PbmImg* img, i32 fin) {
     i64 width, height;
 
     read_size(&width, &height, fin);
 
-    img->img.channels = (Matrix *)malloc(sizeof *img->img.channels);
+    img->img.channels = (Matrix*)malloc(sizeof *img->img.channels);
     img->img.channels[0] = matrix_new(width, height, U8_MATRIX, false);
 
-    u8 **img_data = (u8 **)img->img.channels[0].data;
+    u8** img_data = (u8**)img->img.channels[0].data;
 
     u8 buf[BLOCK_SIZE] = {0};
     i64 buf_size = 0;
@@ -75,8 +75,8 @@ static void read_data(PbmImg *img, i32 fin) {
     }
 }
 
-Img *pbm_img_read(const char *path) {
-    PbmImg *new_img = (PbmImg *)malloc(sizeof *new_img);
+Img* pbm_img_read(const char* path) {
+    PbmImg* new_img = (PbmImg*)malloc(sizeof *new_img);
 
     i32 fin = open(path, O_RDONLY);
 
@@ -94,7 +94,7 @@ Img *pbm_img_read(const char *path) {
     return &new_img->img;
 }
 
-static void write_magic(const PbmImg *img, i32 fout) {
+static void write_magic(const PbmImg* img, i32 fout) {
     if (img->is_ascii) {
         write(fout, "P1\n", 3);
     } else {
@@ -102,20 +102,19 @@ static void write_magic(const PbmImg *img, i32 fout) {
     }
 }
 
-static void write_size(const PbmImg *img, i32 fout) {
+static void write_size(const PbmImg* img, i32 fout) {
     char header_buf[IMG_HEADER_BUFFER_SIZE] = {0};
-    sprintf(header_buf, "%li %li\n", img->img.channels->width,
-            img->img.channels->height);
+    sprintf(header_buf, "%li %li\n", img->img.channels->width, img->img.channels->height);
     write(fout, header_buf, strlen(header_buf));
 }
 
-static void write_data(const PbmImg *img, i32 fout) {
+static void write_data(const PbmImg* img, i32 fout) {
     u8 buf[BLOCK_SIZE];
     u64 buf_top = 0;
 
-    u8 **data = (u8 **)img->img.channels[0].data;
-    i64 width = img_width((const Img *)img);
-    i64 height = img_height((const Img *)img);
+    u8** data = (u8**)img->img.channels[0].data;
+    i64 width = img_width((const Img*)img);
+    i64 height = img_height((const Img*)img);
 
     for (i64 i = 0; i < height; ++i) {
         for (i64 j = 0; j < width; ++j) {
@@ -133,17 +132,17 @@ static void write_data(const PbmImg *img, i32 fout) {
     }
 }
 
-void pbm_img_write(const PbmImg *img, i32 fout) {
+void pbm_img_write(const PbmImg* img, i32 fout) {
     write_magic(img, fout);
     write_size(img, fout);
     write_data(img, fout);
 }
 
-Img *pbm_img_copy(const PbmImg *img) {
-    PbmImg *new_img = (PbmImg *)malloc(sizeof *new_img);
+Img* pbm_img_copy(const PbmImg* img) {
+    PbmImg* new_img = (PbmImg*)malloc(sizeof *new_img);
     memcpy(new_img, img, sizeof *new_img);
 
-    new_img->img.channels = (Matrix *)malloc(sizeof *img->img.channels);
+    new_img->img.channels = (Matrix*)malloc(sizeof *img->img.channels);
     new_img->img.channels[0] = matrix_copy(img->img.channels + 0);
 
     return &new_img->img;

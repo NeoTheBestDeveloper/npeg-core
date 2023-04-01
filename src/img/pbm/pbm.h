@@ -1,5 +1,4 @@
-#ifndef H_PBM
-#define H_PBM
+#pragma once
 
 #include <stdbool.h>
 
@@ -10,9 +9,7 @@ typedef struct {
     bool is_ascii;
 } PbmImg;
 
-Img *pbm_img_read(const char *path);
-void pbm_img_write(const PbmImg *img, i32 fout);
+Img* pbm_img_read(const char* path);
+void pbm_img_write(const PbmImg* img, i32 fout);
 
-Img *pbm_img_copy(const PbmImg *img);
-
-#endif // !H_PBM
+Img* pbm_img_copy(const PbmImg* img);
