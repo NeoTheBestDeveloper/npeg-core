@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <malloc.h>
+#include <stdio.h>
 #include <unistd.h>
 
 #include "_img.h"

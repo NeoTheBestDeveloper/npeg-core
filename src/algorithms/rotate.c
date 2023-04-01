@@ -1,11 +1,11 @@
 #include <malloc.h>
 #include <math.h>
 #include <pthread.h>
-#include <sys/sysinfo.h>
 
 #include "../math/matrix.h"
 #include "../math/trig.h"
 #include "algorithms.h"
+#include "threads_utils.h"
 #include "types.h"
 
 typedef struct {
@@ -165,7 +165,7 @@ void matrix_rotate(Matrix* m, f32 degrees, Interpolation inter) {
     f32 cos_a = cosf(deg_to_rad(degrees));
     f32 sin_a = sinf(deg_to_rad(degrees));
 
-    i64 threads_count = get_nprocs_conf();
+    i64 threads_count = get_procs_count();
     pthread_t* threads = (pthread_t*)malloc(sizeof *threads * (u64)threads_count);
 
     void* (*rotate_function)(void*) = (m->matrix_type == U8_MATRIX) ? &matrix_u8_rotate : &matrix_u16_rotate;

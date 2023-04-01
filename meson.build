@@ -2,7 +2,7 @@ project('npeg-core', 'c',
     version: '0.0.1',
     default_options: [
             'warning_level=3',
-            'c_std=c11',
+            'c_std=c17',
             'buildtype=debug',
             'b_sanitize=address,undefined',
             'b_lundef=false',
@@ -39,11 +39,7 @@ warning_flags = [
                 '-Wno-declaration-after-statement',
 ]
 
-avx_flags = [
-            '-mfma',
-            '-mavx',
-            '-mavx2',
-]
+avx_flags = []
 
 if get_option ('buildtype').startswith('debug') 
   add_project_arguments('-DDEBUG', language: 'c')
@@ -53,9 +49,18 @@ add_project_arguments(cc.get_supported_arguments(warning_flags), language: 'c')
 add_project_arguments(cc.get_supported_arguments(avx_flags), language: 'c')
 
 math_dep = cc.find_library('m', required: true) 
-thread_dep = dependency('threads')
 
-shared_library('npeg-core', npeg_sources, include_directories: includedir, dependencies: [ math_dep, thread_dep ])
+if meson.is_cross_build() 
+  thread_dep = cc.find_library('winpthread', static: true)
+else 
+  thread_dep = dependency('threads')
+endif
+
+npeg_core = shared_library('npeg-core', npeg_sources, 
+  include_directories: includedir, 
+  dependencies: [math_dep, thread_dep],
+)
+
 
 if get_option('buildtype').startswith('debug')
   subdir('tests') 

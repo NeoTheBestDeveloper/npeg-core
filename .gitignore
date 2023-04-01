@@ -10,8 +10,9 @@ __pycache__
 release_win_build
 debug_win_build
 dist
-*.egg-info
-*.so
-*.dll
-.tox
-.env
+subprojects/boxfort*
+subprojects/libffi*
+subprojects/libgit2*
+subprojects/nanomsg*
+subprojects/nanopb*
+subprojects/criterion
