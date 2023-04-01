@@ -1,0 +1,11 @@
+---
+Checks:          '-*,clang-diagnostic-*,-clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling,performance-*'
+WarningsAsErrors: 'true'
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: 'false'
+FormatStyle:     none
+User:            neo
+CheckOptions:
+    clang-analyzer-deadcode.DeadStores: 'false'
+...
+

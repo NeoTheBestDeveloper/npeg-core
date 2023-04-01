@@ -1,0 +1,17 @@
+build
+release_build
+debug_build
+release
+.cache
+cache
+assets
+optimization.md
+__pycache__
+release_win_build
+debug_win_build
+dist
+*.egg-info
+*.so
+*.dll
+.tox
+.env
