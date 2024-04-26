@@ -1,9 +1,8 @@
-#include "matrix.h"
-
 #include <malloc.h>
 #include <string.h>
 
 #include "die.h"
+#include "matrix.h"
 
 Matrix matrix_new(i64 width, i64 height, MatrixType matrix_type, bool fill_zeroes) {
     Matrix matrix = {
@@ -90,6 +89,7 @@ bool matrix_cmp(const Matrix* m1, const Matrix* m2) {
         return true;
     }
 }
+
 void matrix_free(Matrix* matrix) {
     for (i64 i = 0; i < matrix->height; ++i) {
         free(matrix->data[i]);

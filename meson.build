@@ -56,7 +56,7 @@ else
   thread_dep = dependency('threads')
 endif
 
-npeg_core = shared_library('npeg-core', npeg_sources, 
+npeg_core = both_libraries('npeg-core', npeg_sources, 
   include_directories: includedir, 
   dependencies: [math_dep, thread_dep],
 )

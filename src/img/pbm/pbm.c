@@ -19,42 +19,24 @@ static inline u8 chr_to_digit(u8 digit) { return digit - 48; }
 
 static bool is_ascii(const char* magic) { return 0 == strncmp(magic, "P1", 2); }
 
-static void read_size(i64* width, i64* height, i32 fin) {
-    char header_buf[IMG_HEADER_BUFFER_SIZE] = {0};
-    u8 buffer_top = 0;
-
-    bool width_readen = false;
-    bool height_readen = false;
-
-    while (!width_readen && !height_readen) {
-        do {
-            read(fin, header_buf + buffer_top, 1);
-            buffer_top++;
-        } while (!isspace(header_buf[buffer_top - 1]));
-        header_buf[buffer_top - 1] = '\0';
-
-        *width = atol(header_buf);
-        width_readen = true;
-        buffer_top = 0;
-
-        do {
-            read(fin, header_buf + buffer_top, 1);
-            buffer_top++;
-        } while (!isspace(header_buf[buffer_top - 1]));
-        header_buf[buffer_top - 1] = '\0';
-
-        *height = atol(header_buf);
-        height_readen = true;
-        buffer_top = 0;
-    }
-}
-
 static void read_data(PbmImg* img, i32 fin) {
     i64 width, height;
 
-    read_size(&width, &height, fin);
+    u8 line[IMG_HEADER_BUFFER_SIZE] = {0};
+    i64 line_top = 0;
+    u8 whitespaces_read_count = 0;
 
-    img->img.channels = (Matrix*)malloc(sizeof *img->img.channels);
+    while (whitespaces_read_count != 2) {
+        read(fin, line + line_top, 1);
+        if (isspace(line[line_top])) {
+            whitespaces_read_count++;
+        }
+        line_top++;
+    }
+
+    sscanf(line, "%li %li", &width, &height);
+
+    img->img.channels = (Matrix*)malloc(sizeof(Matrix));
     img->img.channels[0] = matrix_new(width, height, U8_MATRIX, false);
 
     u8** img_data = (u8**)img->img.channels[0].data;
@@ -66,7 +48,7 @@ static void read_data(PbmImg* img, i32 fin) {
     while ((buf_size = read(fin, buf, BLOCK_SIZE))) {
         for (i64 buf_top = 0; buf_top < buf_size; ++buf_top) {
             if (!isspace(buf[buf_top])) {
-                if (j >= width) {
+                if (j == width) {
                     j = 0;
                     i++;
                 }
@@ -81,8 +63,17 @@ Img* pbm_img_read(const char* path) {
 
     i32 fin = open(path, O_RDONLY);
 
-    char magic[3];
+#ifdef _WIN64
+    char magic[4] = {0};
     read(fin, magic, 3);
+    if (magic[2] == '\r') {
+        read(fin, magic + 3, 1);
+    }
+#else
+    char magic[3] = {0};
+    read(fin, magic, 3);
+#endif
+
 
     new_img->is_ascii = is_ascii(magic);
     new_img->img.depth = 1;

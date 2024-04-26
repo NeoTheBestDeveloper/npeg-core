@@ -16,10 +16,10 @@ release_setup:
 	meson setup --buildtype=release --cross-file=.x86_64-w64-mingw32.txt release_win_build -Db_sanitize=none
 	meson setup --buildtype=release release_build -Db_sanitize=none
 
-test: 
+test: 	
 	meson test -v -C debug_build
 
-test_win: 
+test_win: debug
 	meson test --suite npeg-core -C debug_win_build
 
 checks: 
